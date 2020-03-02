@@ -1,0 +1,92 @@
+@import './variables.scss';
+
+.navbar {
+  position: fixed;
+  top: 0px;
+  left: 0;
+  width: 100%;
+  z-index: $--z-index-header-bar;
+  box-shadow:0px 0px 8px 0px rgba(0,0,0,0.2);
+  .nav-top {
+    height: $--navber-top-height;
+    line-height: $--navber-top-height;
+    font-size: 12px;
+    background:rgba(246,246,246,1);
+    .nav-top-core {
+      max-width: $--page-width;
+      margin: 0 auto;
+      .nav-top-left {
+        float: left;
+        &-item {
+          & + .nav-top-left-item {
+            padding-left: 20px;
+          }
+          display: inline-block;
+          cursor: pointer;
+        }
+      }
+      .nav-top-right {
+        float: right;
+        li {
+          min-width: 100px;
+          & + li {
+            padding-left: 30px;
+          }
+          display: inline-block;
+          cursor: pointer;
+          .dropdown-title {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+
+  .nav-bottom {
+    padding: 15px 0;
+    background: rgba(255,255,255,1);
+    height: $--nav-bottom-height;
+    .nav-bottom-core {
+      max-width: $--page-width;
+      margin: 0 auto;
+      padding: 0 10px;
+      .logo {
+        img {
+          height: 50px;
+          display: block;
+        }
+      }
+      .goLogin {
+        line-height: 50px;
+        a {
+          color: $--color-primary-red;
+        }
+      }
+    }
+  }
+}
+
+.main-content {
+  width: $--page-width;
+  margin: 0 auto;
+  padding-top: $--nav-height + 20px;
+  padding-bottom:198px
+}
+
+
+.foot{
+  position: fixed;
+  bottom:0;
+  width: 100%;
+  z-index: $--z-index-header-bar;
+  background:rgba(51,51,51,1);
+  .content{
+    width: $--page-width;
+    margin: 0 auto;
+  }
+}
+@media screen and (max-width: 500px) {
+  .navbar .nav-top .nav-top-core .nav-top-left-item + .nav-top-left-item {
+    padding-left: 9px;
+  }
+}
