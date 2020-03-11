@@ -1,0 +1,20 @@
+/* 颜色 */
+$--color-base: #333;
+$--color-primary-red: #EE201D;
+$--color-font-grey: #999;
+$--color-line-grey: #e5e5e5;
+$--color-base-red: #EE201D;
+
+/* 字体大小 */
+$--size-base: 16px;
+
+/* 组件尺寸 */
+$--page-width: 1100px;
+$--navber-top-height: 36px;
+$--nav-bottom-height: 80px;
+$--nav-height: $--navber-top-height + $--nav-bottom-height;
+
+$--member-aside-width: 150px;
+
+/* 组件层级 */
+$--z-index-header-bar: 99;

@@ -1,0 +1,11 @@
+@function unit ($px) {
+  @return $px / 750px * 100vw;
+}
+
+@mixin clearfix {
+  &::after {
+    display: block;
+    content: "";
+    clear: both;
+  }
+}
