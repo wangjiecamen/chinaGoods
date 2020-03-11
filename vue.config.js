@@ -1,18 +1,18 @@
-const path = require('path')
-const webpack = require('webpack')
-const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
+const path = require("path");
+const webpack = require("webpack");
+const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
 function resolve(dir) {
-  return path.join(__dirname, dir)
+  return path.join(__dirname, dir);
 }
 
 module.exports = {
   configureWebpack: {
     resolve: {
-      extensions: ['.js', '.vue', '.json', '.scss', '/index.vue', '/Index.vue']
+      extensions: [".js", ".vue", ".json", ".scss", "/index.vue", "/Index.vue"]
     },
     plugins: [
       new webpack.ProvidePlugin({
-        utils: [path.resolve(__dirname, 'src/utils.js'), 'default']
+        utils: [path.resolve(__dirname, "src/utils.js"), "default"]
       }),
       new CaseSensitivePathsPlugin()
     ]
@@ -20,22 +20,35 @@ module.exports = {
   chainWebpack(config) {
     // set svg-sprite-loader
     config.module
-      .rule('svg')
-      .exclude.add(resolve('src/icons'))
-      .end()
+      .rule("svg")
+      .exclude.add(resolve("src/icons"))
+      .end();
     config.module
-      .rule('icons')
+      .rule("icons")
       .test(/\.svg$/)
-      .include.add(resolve('src/icons'))
+      .include.add(resolve("src/icons"))
       .end()
-      .use('svg-sprite-loader')
-      .loader('svg-sprite-loader')
+      .use("svg-sprite-loader")
+      .loader("svg-sprite-loader")
       .options({
-        symbolId: 'icon-[name]'
+        symbolId: "icon-[name]"
       })
-      .end()
+      .end();
   },
-  assetsDir:'static',
+  assetsDir: "static",
   //  从 Vue CLI 3.3 起baseUrl已弃用，请使用publicPath.
-  publicPath:process.env.NODE_ENV === "production" ? 'http://static.chinagoods.com': "/"
-}
+  publicPath:
+    process.env.NODE_ENV === "production"
+      ? "http://static.chinagoods.com"
+      : "/",
+  devServer: {
+    open: true,
+    proxy: {
+      "/user": {
+        target: process.env.VUE_APP_API_R,
+        changeOrigin: true,
+        secure: false
+      }
+    }
+  }
+};

@@ -5,28 +5,24 @@
         <div class="nav-top-left" v-if="!successLogin">
           <div class="nav-top-left-item">{{$t('title')}}!</div>
           <a class="nav-top-left-item" @click="isShowLoginDialog = true">{{$t('login')}}</a>
-          <a class="nav-top-left-item" @click="register" v-if="show != 'register'">{{$t('register')}}</a>
+          <a
+            class="nav-top-left-item"
+            @click="register"
+            v-if="show != 'register'"
+          >{{$t('register')}}</a>
         </div>
         <div class="nav-top-left" v-if="successLogin">
-          <div class="nav-top-left-item"> {{$t('hello')}}, {{username}} {{$t('user')}}</div>
+          <div class="nav-top-left-item">{{$t('hello')}}, {{username}} {{$t('user')}}</div>
           <a class="nav-top-left-item" @click="loginout">{{$t('logout')}}</a>
         </div>
         <div class="nav-top-right">
           <ul>
-            <li v-show="!isShowMap&&show=='application' || !isShowMap&&show=='layout'" @click="toMap" class="map">{{$t('map')}}</li>
-            <li class="laguages" v-if="show != 'register'">
-              <el-dropdown @command="handleCommand">
-                <span class="dropdown-title">
-                  {{$t('member')}}
-                  <i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item command="order">{{$t('myOrder')}}</el-dropdown-item>
-                  <el-dropdown-item command="collect">{{$t('collectShop')}}</el-dropdown-item>
-                  <el-dropdown-item command="address">{{$t('reciveAddress')}}</el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
-            </li>
+            <li
+              v-show="!isShowMap&&show=='application' || !isShowMap&&show=='layout'"
+              @click="toMap"
+              class="map"
+            >{{$t('map')}}</li>
+            <li class="laguages" v-if="show != 'register'"></li>
             <li>
               <el-dropdown @command="toggleLanguage">
                 <span class="dropdown-title">
@@ -55,9 +51,6 @@
           <!-- <span>{{$t('ExistAccount')}}？</span> -->
           <router-link to="/dashboard">{{$t('toLogin')}} ></router-link>
         </div>
-        <div class="pull-right btn-wp" v-if="show == 'application'">
-          <router-link to="/freetoyiwu">{{$t('application.Application')}} <br/>{{$t('application.word')}}</router-link>
-        </div>
       </div>
     </div>
 
@@ -66,9 +59,9 @@
 </template>
 
 <script>
-import loginDialog from "./loginDialog"
-import api from '@/model/register'
-import Cookie from 'js-cookie'
+import loginDialog from "./loginDialog";
+import api from "@/model/register";
+import Cookie from "js-cookie";
 
 export default {
   name: "navbar",
@@ -82,9 +75,9 @@ export default {
       type: Boolean,
       default: true
     },
-    show:{
-      type:String,
-      default: 'application'
+    show: {
+      type: String,
+      default: "application"
     }
   },
 
@@ -93,30 +86,33 @@ export default {
   data() {
     return {
       isShowLoginDialog: false
-    }
+    };
   },
 
   created() {
-    console.log('hideTop',this.hideTop,'show',this.show,'isshowmap',this.isShowMap)
+    console.log(
+      "hideTop",
+      this.hideTop,
+      "show",
+      this.show,
+      "isshowmap",
+      this.isShowMap
+    );
   },
 
-  mounted() {
+  mounted() {},
 
-  },
-
-  watch: {
-
-  },
+  watch: {},
 
   computed: {
-    successLogin () {
-      return localStorage.getItem('name') ? true : false
+    successLogin() {
+      return localStorage.getItem("name") ? true : false;
     },
-    username () {
-      return  this.$store.getters['user/username']
+    username() {
+      return this.$store.getters["user/username"];
     },
-    language () {
-      return this.$store.getters['app/language']
+    language() {
+      return this.$store.getters["app/language"];
     }
   },
 
@@ -125,52 +121,47 @@ export default {
       this.isShowLoginDialog = isShow;
     },
 
-    toMap () {
-      this.$router.push('/dashboard')
+    toMap() {
+      this.$router.push("/dashboard");
     },
 
-    toggleLanguage (lang) {
-      this.$i18n.locale = lang
-      this.$store.dispatch('app/setLanguage', lang)
+    toggleLanguage(lang) {
+      this.$i18n.locale = lang;
+      this.$store.dispatch("app/setLanguage", lang);
     },
 
     handleCommand(type) {
       if (!this.successLogin) {
-        this.isShowLoginDialog = true
-        return
-      }
-      if (type === "order") {
-        this.$router.push("/member/order/index");
-      } else if (type === "collect") {
-        this.$router.push("/member/order/collect");
-      } else {
-        this.$router.push("/member/order/address");
+        this.isShowLoginDialog = true;
+        return;
       }
     },
 
     login(options) {
-      this.$store.dispatch('user/login', options).then(_ => {
-        this.isShowLoginDialog = false
-      }).catch(err => {
-        console.log(err)
-      })
+      this.$store
+        .dispatch("user/login", options)
+        .then(_ => {
+          this.isShowLoginDialog = false;
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
 
-    register () {
-      this.$router.push('/register')
+    register() {
+      this.$router.push("/register");
     },
 
-    async loginout(){
-      this.$store.dispatch('user/logout')
+    async loginout() {
+      this.$store.dispatch("user/logout");
     }
-
   }
 };
 </script>
 
 <style scoped lang="scss">
 .btn-wp {
-  background: #F1F9F5;
+  background: #f1f9f5;
   // width: 120px;
   height: 48px;
   display: flex;
@@ -180,17 +171,17 @@ export default {
   padding: 0 10px;
   a {
     display: inline-block;
-    color: #189D50;
+    color: #189d50;
     // width: 93px;
     font-size: 12px;
   }
 }
 
 .laguages {
-  cursor:pointer;
+  cursor: pointer;
 }
 @media screen and (max-width: 500px) {
-  .nav-top{
+  .nav-top {
     height: 72px;
     font-size: 12px;
     background: #f6f6f6;
@@ -202,18 +193,18 @@ export default {
   }
 
   .nav-top-core {
-    height:100%;
-    display:flex;
+    height: 100%;
+    display: flex;
     align-items: center;
   }
 
-  .nav-top-right li{
+  .nav-top-right li {
     padding-left: 0px !important;
     text-align: center;
   }
 
   .nav-bottom {
-    height:80px;
+    height: 80px;
   }
 
   .nav-bottom-core {
@@ -229,12 +220,12 @@ export default {
     height: auto;
   }
 
-  .state p{
+  .state p {
     font-size: 10px;
   }
 
   .map {
-    display:none !important;
+    display: none !important;
   }
 }
 </style>

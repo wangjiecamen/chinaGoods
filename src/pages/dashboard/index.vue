@@ -7,25 +7,25 @@
       :title="$t('logon.commodity')"
       :visible.sync="dialogVisible"
       width="60%"
-      :before-close="handleClose">
+      :before-close="handleClose"
+    >
       <span v-html="content"></span>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button @click="dialogVisible = false">{{$t('logon.cancel')}}</el-button>
+        <el-button type="primary" @click="dialogVisible = false">{{$t('logon.confirm')}}</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import navbar from '@/layout/components/navbar'
-import Footer from '@/layout/components/footer'
-import apiRegister from "@/model/register"
+import navbar from "@/layout/components/navbar";
+import Footer from "@/layout/components/footer";
+import apiRegister from "@/model/register";
 export default {
-  name: 'dashboard',
+  name: "dashboard",
 
-  props: {
-  },
+  props: {},
 
   components: {
     navbar,
@@ -36,51 +36,60 @@ export default {
     return {
       isShowMap: false,
       dialogVisible: false,
-      lang:"",
-      content:''
-    }
+      content: ""
+    };
   },
 
   computed: {
+    lang() {
+      return this.$store.getters["app/language"];
+    }
   },
 
-  created() {
-    this.getPrivacy()
-  },
+  created() {},
 
-  mounted() {
-  },
+  mounted() {},
 
   watch: {
+    lang: {
+      handler: function(newValue, oldValue) {
+        if (newValue !== oldValue) {
+          this.getPrivacy();
+        }
+      },
+      immediate: true
+    }
   },
 
   methods: {
-    getdialogVisibled(e){
-      this.dialogVisible = e
+    getdialogVisibled(e) {
+      this.dialogVisible = e;
     },
     handleClose(done) {
-      this.$confirm(this.$t('logon.closeTit'))
+      this.$confirm(this.$t("logon.closeTit"), {
+        confirmButtonText: this.$t("logon.confirm"),
+        cancelButtonText: this.$t("logon.cancel")
+      })
         .then(_ => {
           done();
         })
         .catch(_ => {});
     },
-    async getPrivacy(){
+    async getPrivacy() {
       const options = {
-        params: {zone: 'FH'}
-      }
-      const res = await apiRegister.getScreet(options)
-      console.log('隐私政策-----',res)
-      let lang = this.$store.getters['app/language']
-      if(lang == "zh"){
-        this.content = res.content
-      }else {
-        this.content = res.content_en
-      }
+        params: { zone: "FH" }
+      };
+      const res = await apiRegister.getScreet(options);
+      console.log("隐私政策-----", res);
 
+      if (this.lang == "zh") {
+        this.content = res.content;
+      } else {
+        this.content = res.content_en;
+      }
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -90,11 +99,11 @@ export default {
 }
 @media screen and (max-width: 500px) {
   /deep/ .el-dialog {
-    width:90% !important;
+    width: 90% !important;
   }
 
   /deep/ .el-message-box__wrapper .el-message-box {
-    width:310px !important;
+    width: 310px !important;
   }
 }
 </style>
